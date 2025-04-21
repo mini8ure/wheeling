@@ -42,6 +42,14 @@ void add_m(Array *array, int num) {
   return;
 }
 
+int pop_m(Array *array) {
+  if (array->size == 0)
+    exit(1);
+
+  array->counter--;
+  return array->data[array->counter + 1];
+}
+
 /* insert_m(array, index, num)
  * array: array to be modified
  * index: which index to insert num
@@ -103,12 +111,19 @@ void remove_m(Array *array, int val) {
   return;
 }
 
-int pop_m(Array *array) {
-  if (array->size == 0)
-    exit(1);
+void removeAll_m(Array *array, int val) {
+  int found = 0;
+  for (int i = 0; i < size_m(array); i++) {
+    if (array->data[i] == val) {
+      found++;
+      continue;
+    }
 
-  array->counter--;
-  return array->data[array->counter + 1];
+    array->data[i - found] = array->data[i];
+  }
+
+  array->counter -= found;
+  return;
 }
 
 /* size_m(array)
@@ -120,6 +135,11 @@ int pop_m(Array *array) {
 int size_m(Array *array) { return array->counter; }
 
 void print_m(Array *array) {
+  if (size_m(array) == 0) {
+    printf("[]\n");
+    return;
+  }
+
   for (int i = 0; i < array->counter; i++) {
     if (i == 0) {
       printf("[%d", array->data[i]);
