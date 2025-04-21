@@ -20,6 +20,7 @@ int pop_m(Array *);
 void insert_m(Array *, int, int);
 void remove_m(Array *, int);
 void removeAll_m(Array *, int);
+void clear(Array *);
 
 int size_m(Array *);
 void print_m(Array *);

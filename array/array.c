@@ -40,6 +40,7 @@ static void resize_m(Array *array) {
  * desc:  free an array in memory
  ********************************/
 void free_m(Array *array) {
+  free(array->data);
   free(array);
 
   return;
@@ -86,8 +87,13 @@ void insert_m(Array *array, int index, int num) {
     resize_m(array);
   }
 
-  if (index >= array->counter) {
+  if (index > array->counter) {
     exit(1);
+  }
+
+  if (index == array->counter) {
+    add_m(array, num);
+    return;
   }
 
   int temp[array->counter - index];
@@ -146,6 +152,18 @@ void removeAll_m(Array *array, int val) {
 
   array->counter -= found;
   return;
+}
+
+/* clear(array)
+ * array: array to be cleared
+ * desc:  clear array of all values by
+ *        reinitializing the array
+ *************************************/
+void clear(Array *array) {
+  array->size = 0;
+  array->counter = 0;
+  free(array->data);
+  array->data = NULL;
 }
 
 /* size_m(array)
