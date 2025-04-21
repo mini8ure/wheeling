@@ -2,6 +2,10 @@
 #include <stdio.h>
 #include <stdlib.h>
 
+/* init_m()
+ * return:  an initialized array struct
+ * desc:  allocate an array and initialize it
+ *******************************************/
 Array *init_m() {
   Array *array = (Array *)malloc(sizeof(Array));
 
@@ -12,6 +16,11 @@ Array *init_m() {
   return array;
 }
 
+/* resize_m(array)
+ * array: the array to be resized
+ * desc:  grow the array to either 8 values
+ *        or double the current size
+ ******************************************/
 static void resize_m(Array *array) {
   if (array->size == 0) {
     array->size = DEFAULT_SIZE_M;
@@ -26,12 +35,22 @@ static void resize_m(Array *array) {
   return;
 }
 
+/* free_m(array)
+ * array: array to be freed
+ * desc:  free an array in memory
+ ********************************/
 void free_m(Array *array) {
   free(array);
 
   return;
 }
 
+/* add_m(array, num)
+ * array: array to add num to
+ * num: integer to be added to array
+ * desc:  add an integer to the end of
+ *        an array
+ *************************************/
 void add_m(Array *array, int num) {
   if (array->counter == array->size)
     resize_m(array);
@@ -42,6 +61,11 @@ void add_m(Array *array, int num) {
   return;
 }
 
+/* pop_m(array)
+ * array: array to pop a value from
+ * desc:  pop a value from the end of
+ *        an array
+ ************************************/
 int pop_m(Array *array) {
   if (array->size == 0)
     exit(1);
@@ -58,20 +82,14 @@ int pop_m(Array *array) {
  *        the dynamic array
  ************************************************/
 void insert_m(Array *array, int index, int num) {
-  // make sure the array has enough space for another integer
-  // if not, resize the array
   if (array->counter + 1 > array->size) {
     resize_m(array);
   }
 
-  // check if index is out of initialized space
-  // (soft index out of bounds)
   if (index >= array->counter) {
     exit(1);
   }
 
-  // handle intended case
-  // copy the data past the index into a new array
   int temp[array->counter - index];
   for (int i = index; i < array->counter; i++) {
     temp[i - index] = array->data[i];
@@ -79,12 +97,10 @@ void insert_m(Array *array, int index, int num) {
 
   array->data[index] = num;
 
-  // move temp data back into array
   for (int i = index + 1; i <= array->counter; i++) {
     array->data[i] = temp[i - index - 1];
   }
 
-  // increment the counter after adding an element
   array->counter++;
 
   return;
@@ -111,6 +127,12 @@ void remove_m(Array *array, int val) {
   return;
 }
 
+/* removeAll_m(array, val)
+ * array: array to remove vals from
+ * val: values to remove from array
+ * desc:  remove all occurences of val from
+ *        the array
+ ******************************************/
 void removeAll_m(Array *array, int val) {
   int found = 0;
   for (int i = 0; i < size_m(array); i++) {
